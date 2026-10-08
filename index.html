@@ -1,0 +1,303 @@
+<!-- Created by Erion Nezha — © 2026 All rights reserved -->
+<!DOCTYPE html>
+<html lang="sq">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bursa Demo — Erion Nezha</title>
+<meta name="description" content="Tregto aksione në një bursë të simuluar — bli lirë, shit shtrenjtë, me para virtuale.">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+<style id="appcss">
+/* ============ ERION NEZHA · ULTRA-PREMIUM THEME (shared) ============ */
+:root{
+  --bg0:#070b16; --bg1:#0b1124; --gold:#D4AF37; --gold2:#f3dd8f;
+  --ink:#eef1f7; --mut:#9aa3b8; --glass:rgba(255,255,255,.055);
+  --line:rgba(212,175,55,.22); --r:18px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:"Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;
+  background:var(--bg0); color:var(--ink); min-height:100vh; overflow-x:hidden;
+}
+.bg-orbs{position:fixed;inset:0;z-index:-1;overflow:hidden}
+.bg-orbs span{position:absolute;border-radius:50%;filter:blur(90px);opacity:.28;animation:drift 14s ease-in-out infinite alternate}
+.bg-orbs span:nth-child(1){width:520px;height:520px;left:-140px;top:-120px;background:radial-gradient(circle,#D4AF37,transparent 65%)}
+.bg-orbs span:nth-child(2){width:620px;height:620px;right:-180px;top:30%;background:radial-gradient(circle,#2b3f8f,transparent 65%);animation-delay:-5s}
+.bg-orbs span:nth-child(3){width:460px;height:460px;left:20%;bottom:-160px;background:radial-gradient(circle,#6b4fa1,transparent 65%);animation-delay:-9s}
+@keyframes drift{to{transform:translate(60px,40px) scale(1.12)}}
+.wrap{max-width:1120px;margin:0 auto;padding:0 22px}
+.site-header{padding:64px 0 30px;text-align:center}
+.overline{letter-spacing:.42em;font-size:11px;color:var(--gold);text-transform:uppercase;margin-bottom:14px}
+.site-header h1{font-size:clamp(30px,5vw,52px);font-weight:800;line-height:1.15;
+  background:linear-gradient(120deg,#fff 20%,var(--gold2) 55%,var(--gold) 80%);
+  -webkit-background-clip:text;background-clip:text;color:transparent}
+.site-header p{color:var(--mut);max-width:640px;margin:14px auto 0;font-size:16px;line-height:1.65}
+.live-badge{display:inline-flex;align-items:center;gap:8px;margin-top:18px;padding:8px 18px;border-radius:999px;
+  border:1px solid var(--line);background:var(--glass);backdrop-filter:blur(10px);font-size:13px;color:var(--gold2);letter-spacing:.08em}
+.live-badge i{width:9px;height:9px;border-radius:50%;background:#3ddc84;box-shadow:0 0 12px #3ddc84;animation:pulse 1.6s infinite}
+@keyframes pulse{50%{opacity:.35}}
+.demo-wrap{margin:26px 0 54px}
+.glass{background:var(--glass);border:1px solid var(--line);border-radius:var(--r);
+  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  box-shadow:0 24px 60px rgba(0,0,0,.45), inset 0 1px 0 rgba(255,255,255,.08);padding:30px}
+.code-section{margin:0 0 60px}
+.code-section h2{font-size:24px;margin-bottom:6px}
+.code-section .sub{color:var(--mut);font-size:14px;margin-bottom:18px}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:0;align-items:center}
+.ctab{padding:10px 22px;border-radius:12px 12px 0 0;border:1px solid var(--line);border-bottom:none;cursor:pointer;
+  background:rgba(255,255,255,.03);color:var(--mut);font-size:14px;font-weight:600;letter-spacing:.04em;transition:.25s}
+.ctab.active{background:linear-gradient(180deg,rgba(212,175,55,.22),rgba(212,175,55,.06));color:var(--gold2)}
+.ctab:hover{color:var(--ink)}
+#copyBtn{margin-left:auto;padding:9px 20px;border-radius:10px;border:1px solid var(--line);cursor:pointer;
+  background:linear-gradient(120deg,var(--gold),#a8842a);color:#0a0e1a;font-weight:700;font-size:13px;transition:.25s}
+#copyBtn:hover{transform:translateY(-2px);box-shadow:0 8px 22px rgba(212,175,55,.35)}
+.codebox{border:1px solid var(--line);border-radius:0 14px 14px 14px;overflow:hidden;background:#0d1326}
+.codebox pre{margin:0;max-height:560px;overflow:auto}
+.codebox pre code{display:block;padding:22px;font-family:"Cascadia Code","Fira Code",Consolas,monospace;font-size:13.5px;line-height:1.7;background:transparent}
+.codebox pre::-webkit-scrollbar{width:10px;height:10px}
+.codebox pre::-webkit-scrollbar-thumb{background:rgba(212,175,55,.35);border-radius:8px}
+footer{text-align:center;padding:34px 20px 44px;color:var(--mut);font-size:14px;border-top:1px solid rgba(212,175,55,.14)}
+footer strong{color:var(--gold2)}
+/* ============ APP CSS (per projekt) ============ */
+.demo-note{background:rgba(212,175,55,.1);border:1px dashed rgba(212,175,55,.5);border-radius:12px;padding:10px 16px;font-size:13.5px;color:#f3dd8f;margin-bottom:18px}
+.app-title{font-size:26px;margin-bottom:18px;color:#fff}
+.uat-panel{background:rgba(255,255,255,.03);border:1px solid var(--line);border-radius:14px;padding:20px;margin-bottom:18px}
+.uat-panel h3{font-size:17px;margin-bottom:14px;color:#fff}
+.uat-empty{text-align:center;color:var(--mut);padding:22px 10px;font-size:14.5px;line-height:1.7}
+.btn-gold{background:linear-gradient(120deg,var(--gold),#a8842a);border:none;color:#0a0e1a;font-weight:700;border-radius:12px;padding:12px 26px;font-size:15px;cursor:pointer;transition:.25s;font-family:inherit}
+.btn-gold:hover{transform:translateY(-2px);box-shadow:0 8px 22px rgba(212,175,55,.35)}
+.btn-sell{background:linear-gradient(120deg,#ff7a7a,#c0392b);border:none;color:#fff;font-weight:700;border-radius:12px;padding:12px 26px;font-size:15px;cursor:pointer;transition:.25s;font-family:inherit}
+.btn-sell:hover{transform:translateY(-2px);box-shadow:0 8px 22px rgba(255,90,90,.35)}
+.bursa-cash{background:rgba(255,255,255,.04);border:1px solid var(--line);border-radius:14px;padding:16px 20px;font-size:16px;margin-bottom:18px}
+.bursa-cash strong{color:var(--gold2)}
+.bursa-grid{display:grid;grid-template-columns:1fr 1.35fr;gap:18px;align-items:start}
+.bursa-stock{display:flex;justify-content:space-between;align-items:center;padding:12px 14px;border:1px solid rgba(255,255,255,.08);border-radius:12px;margin-bottom:8px;cursor:pointer;background:rgba(255,255,255,.03);transition:.2s}
+.bursa-stock:hover{border-color:var(--gold)}
+.bursa-stock.sel{border-color:var(--gold);background:rgba(212,175,55,.08);box-shadow:0 0 18px rgba(212,175,55,.15)}
+.bursa-sname{font-weight:700;font-size:15px}
+.bursa-ssym{font-size:12px;color:var(--mut);letter-spacing:.08em}
+.bursa-sprice{font-weight:800;font-size:16px;text-align:right}
+.bursa-chg{font-size:13px;font-weight:700;text-align:right}
+.up{color:#3ddc84}.down{color:#ff6b6b}
+.bursa-price{font-size:30px;font-weight:800;margin:4px 0 8px}
+.bursa-price .up,.bursa-price .down{font-size:16px;margin-left:10px}
+#bChart{width:100%;height:220px;background:rgba(0,0,0,.25);border-radius:12px;border:1px solid rgba(255,255,255,.08)}
+.bursa-trade{display:flex;gap:10px;margin-top:14px}
+.bursa-trade input{flex:1;background:rgba(255,255,255,.06);border:1px solid var(--line);border-radius:12px;color:var(--ink);padding:12px 14px;font-size:15px;outline:none;font-family:inherit;min-width:0}
+.bursa-trade input:focus{border-color:var(--gold)}
+.bursa-msg{min-height:24px;font-size:14px;margin-top:10px}
+.bursa-msg.ok{color:#3ddc84}.bursa-msg.err{color:#ff9a9a}
+.bursa-tbl{width:100%;border-collapse:collapse;font-size:13.5px}
+.bursa-tbl th,.bursa-tbl td{padding:9px 8px;border-bottom:1px solid rgba(255,255,255,.07);text-align:left}
+.bursa-tbl th{color:var(--gold2);font-size:11.5px;text-transform:uppercase;letter-spacing:.05em}
+.bursa-tbl small{color:var(--mut)}
+.bursa-tx{display:flex;justify-content:space-between;gap:10px;font-size:13.5px;padding:8px 4px;border-bottom:1px solid rgba(255,255,255,.06)}
+.bursa-tx span{color:var(--mut);font-size:12px;white-space:nowrap}
+@media(max-width:760px){.bursa-grid{grid-template-columns:1fr}.bursa-tbl{font-size:12px}}
+@media(max-width:640px){.glass{padding:20px}.site-header{padding:44px 0 22px}}
+</style>
+</head>
+<body>
+<div class="bg-orbs"><span></span><span></span><span></span></div>
+
+<header class="site-header wrap">
+  <div class="overline">Erion Nezha · Web Projects</div>
+  <h1>Bursa Demo</h1>
+  <p>Tregto aksione në një bursë të simuluar — bli lirë, shit shtrenjtë, me para virtuale.</p>
+  <div class="live-badge"><i></i> LIVE DEMO</div>
+</header>
+
+<main class="wrap">
+  <section class="demo-wrap">
+    <div class="glass" id="demo">
+<div class="demo-note">🧪 Treg i simuluar — para virtuale. Nuk është këshillë financiare.</div>
+<h2 class="app-title">📈 Bursa Demo</h2>
+<div class="bursa-cash">💰 Cash: <strong id="bCash">100,000 L</strong> &nbsp;·&nbsp; 📊 Vlera totale: <strong id="bTotal">100,000 L</strong></div>
+<div class="bursa-grid">
+  <div class="uat-panel">
+    <h3>🏢 Aksionet</h3>
+    <div id="bStocks"></div>
+  </div>
+  <div>
+    <div class="uat-panel">
+      <h3 id="bSelName">Zgjidh një aksion</h3>
+      <div class="bursa-price"><span id="bSelPrice">—</span> <span id="bSelChg"></span></div>
+      <canvas id="bChart" width="520" height="220"></canvas>
+      <div class="bursa-trade">
+        <input id="bQty" type="number" min="1" value="10">
+        <button id="bBuy" class="btn-gold">Bli</button>
+        <button id="bSell" class="btn-sell">Shit</button>
+      </div>
+      <div class="bursa-msg" id="bMsg"></div>
+    </div>
+    <div class="uat-panel">
+      <h3>💼 Portofoli im</h3>
+      <div id="bHold"></div>
+    </div>
+    <div class="uat-panel">
+      <h3>🧾 Historiku i transaksioneve</h3>
+      <div id="bHist"></div>
+    </div>
+  </div>
+</div>
+    </div>
+  </section>
+
+  <section class="code-section">
+    <h2>💻 Kodi Burim</h2>
+    <p class="sub">I gjithë kodi i këtij projekti — i lexueshëm, i kopjueshëm, gati për t'u mësuar.</p>
+    <div class="tabs">
+      <button class="ctab active" data-tab="html">HTML</button>
+      <button class="ctab" data-tab="css">CSS</button>
+      <button class="ctab" data-tab="js">JavaScript</button>
+      <button id="copyBtn">Kopjo kodin</button>
+    </div>
+    <div class="codebox"><pre><code id="codeView" class="language-html"></code></pre></div>
+  </section>
+</main>
+
+<footer>Krijuar nga <strong>Erion Nezha</strong> · © 2026 — Të gjitha të drejtat e rezervuara</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script id="appjs">
+(function(){
+"use strict";
+var STOCKS=[
+  {sym:"TBK",name:"Tirana Bank",price:4850},
+  {sym:"ALT",name:"Albanian Telecom",price:3120},
+  {sym:"ADE",name:"Adriatik Energy",price:1980},
+  {sym:"DFO",name:"Dajti Foods",price:745},
+  {sym:"ILT",name:"Iliria Tech",price:6230},
+  {sym:"SBR",name:"Shkodra Brew",price:1290}
+];
+STOCKS.forEach(function(s){s.open=s.price;s.hist=[s.price];});
+var cash=100000,hold={},tx=[],sel=0;
+try{var p=JSON.parse(localStorage.getItem("bursa_v1")||"null");if(p&&typeof p.cash==="number"){cash=p.cash;hold=p.hold||{};tx=p.tx||[];}}catch(e){}
+function $(id){return document.getElementById(id);}
+function save(){try{localStorage.setItem("bursa_v1",JSON.stringify({cash:cash,hold:hold,tx:tx}));}catch(e){}}
+function esc(s){return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");}
+function fmt(n){return Math.round(n).toLocaleString("sq-AL")+" L";}
+function pad(n){return (n<10?"0":"")+n;}
+function fmtT(ts){var d=new Date(ts);return pad(d.getDate())+"/"+pad(d.getMonth()+1)+" "+pad(d.getHours())+":"+pad(d.getMinutes());}
+function msg(t,ok){var m=$("bMsg");m.textContent=t;m.className="bursa-msg "+(ok?"ok":"err");}
+function chgPct(s){return (s.price-s.open)/s.open*100;}
+function tick(){
+  STOCKS.forEach(function(s){
+    s.price=Math.max(10,s.price*(1+(Math.random()-0.5)*0.04));
+    s.hist.push(s.price);if(s.hist.length>60)s.hist.shift();
+  });
+  renderStocks();renderSel();renderPort();
+}
+function renderStocks(){
+  var html="";
+  STOCKS.forEach(function(s,i){
+    var c=chgPct(s),cls=c>=0?"up":"down";
+    html+='<div class="bursa-stock'+(i===sel?" sel":"")+'" data-i="'+i+'">'+
+      '<div><div class="bursa-sname">'+esc(s.name)+'</div><div class="bursa-ssym">'+s.sym+'</div></div>'+
+      '<div><div class="bursa-sprice">'+fmt(s.price)+'</div>'+
+      '<div class="bursa-chg '+cls+'">'+(c>=0?"▲":"▼")+" "+Math.abs(c).toFixed(2)+"%</div></div></div>";
+  });
+  $("bStocks").innerHTML=html;
+  var els=document.querySelectorAll(".bursa-stock"),i;
+  for(i=0;i<els.length;i++){els[i].addEventListener("click",function(){sel=+this.getAttribute("data-i");renderStocks();renderSel();});}
+}
+function renderSel(){
+  var s=STOCKS[sel],c=chgPct(s);
+  $("bSelName").textContent=s.name+" ("+s.sym+")";
+  $("bSelPrice").textContent=fmt(s.price);
+  var e=$("bSelChg");e.textContent=(c>=0?"▲ +":"▼ ")+c.toFixed(2)+"% sot";e.className=c>=0?"up":"down";
+  drawChart();
+}
+function drawChart(){
+  var cv=$("bChart");if(!cv.getContext)return;
+  var ctx=cv.getContext("2d"),s=STOCKS[sel],data=s.hist.slice(-50);
+  var W=cv.width,H=cv.height;ctx.clearRect(0,0,W,H);
+  if(data.length<2)return;
+  var min=Math.min.apply(null,data),max=Math.max.apply(null,data);
+  if(max===min)max=min+1;
+  var n=data.length;
+  function px(i){return 8+i*(W-16)/(n-1);}
+  function py(v){return H-18-(v-min)/(max-min)*(H-40);}
+  var up=data[n-1]>=data[0],col=up?"#3ddc84":"#ff6b6b";
+  var g=ctx.createLinearGradient(0,0,0,H);
+  g.addColorStop(0,up?"rgba(61,220,132,.35)":"rgba(255,107,107,.35)");g.addColorStop(1,"rgba(0,0,0,0)");
+  ctx.beginPath();ctx.moveTo(px(0),py(data[0]));
+  for(var i=1;i<n;i++)ctx.lineTo(px(i),py(data[i]));
+  ctx.strokeStyle=col;ctx.lineWidth=2.5;ctx.lineJoin="round";ctx.stroke();
+  ctx.lineTo(px(n-1),H-6);ctx.lineTo(px(0),H-6);ctx.closePath();ctx.fillStyle=g;ctx.fill();
+  ctx.fillStyle="#9aa3b8";ctx.font="11px sans-serif";ctx.textAlign="left";
+  ctx.fillText(fmt(max),8,15);ctx.fillText(fmt(min),8,H-8);
+  ctx.fillStyle=col;ctx.fillText(fmt(data[n-1]),W-72,py(data[n-1])-6);
+}
+function trade(kind){
+  var s=STOCKS[sel],qty=parseInt($("bQty").value,10);
+  if(!(qty>0)){msg("Vendos një sasi pozitive.",false);return;}
+  var cost=qty*s.price;
+  if(kind==="buy"){
+    if(cost>cash){msg("Cash i pamjaftueshëm! Duhen "+fmt(cost)+".",false);return;}
+    cash-=cost;
+    var h=hold[s.sym]||{qty:0,avg:0};
+    h.avg=(h.avg*h.qty+cost)/(h.qty+qty);h.qty+=qty;hold[s.sym]=h;
+    tx.unshift({t:Date.now(),txt:"Bli "+qty+" × "+s.sym+" @ "+fmt(s.price)});
+    msg("U blenë "+qty+" aksione "+s.name+" për "+fmt(cost)+".",true);
+  }else{
+    var h2=hold[s.sym];
+    if(!h2||h2.qty<qty){msg("Nuk ke mjaftueshëm aksione "+s.sym+" për të shitur.",false);return;}
+    cash+=cost;h2.qty-=qty;
+    if(h2.qty===0)delete hold[s.sym];
+    tx.unshift({t:Date.now(),txt:"Shit "+qty+" × "+s.sym+" @ "+fmt(s.price)});
+    msg("U shitën "+qty+" aksione "+s.name+" për "+fmt(cost)+".",true);
+  }
+  save();renderPort();renderSel();
+}
+function renderPort(){
+  var tot=cash,rows="",keys=Object.keys(hold);
+  keys.forEach(function(k){
+    var s=null,i;for(i=0;i<STOCKS.length;i++){if(STOCKS[i].sym===k)s=STOCKS[i];}
+    if(!s)return;
+    var h=hold[k],val=h.qty*s.price,pl=val-h.qty*h.avg;tot+=val;
+    rows+="<tr><td>"+esc(s.name)+"<br><small>"+k+"</small></td><td>"+h.qty+"</td><td>"+fmt(h.avg)+"</td><td>"+fmt(s.price)+"</td><td>"+fmt(val)+'</td><td class="'+(pl>=0?"up":"down")+'">'+(pl>=0?"+":"")+fmt(pl)+"</td></tr>";
+  });
+  $("bCash").textContent=fmt(cash);
+  $("bTotal").textContent=fmt(tot);
+  $("bHold").innerHTML=keys.length?'<table class="bursa-tbl"><tr><th>Aksioni</th><th>Sasia</th><th>Çm. mes.</th><th>Çm. akt.</th><th>Vlera</th><th>P/L</th></tr>'+rows+"</table>":'<div class="uat-empty">Ende nuk ke aksione.<br>Zgjidh një aksion dhe shtyp “Bli”! 👆</div>';
+  var hh="";
+  if(!tx.length)hh='<div class="uat-empty">Asnjë transaksion ende.</div>';
+  tx.slice(0,20).forEach(function(x){hh+='<div class="bursa-tx"><span>'+esc(x.txt)+'</span><span>'+fmtT(x.t)+"</span></div>";});
+  $("bHist").innerHTML=hh;
+}
+$("bBuy").addEventListener("click",function(){trade("buy");});
+$("bSell").addEventListener("click",function(){trade("sell");});
+renderStocks();renderSel();renderPort();
+setInterval(tick,2000);
+})();
+</script>
+<script>
+(function(){
+  var tabs={
+    html:{lang:"html",get:function(){return document.getElementById("demo").innerHTML.trim();}},
+    css:{lang:"css",get:function(){return document.getElementById("appcss").textContent.trim();}},
+    js:{lang:"javascript",get:function(){return document.getElementById("appjs").textContent.trim();}}
+  };
+  var view=document.getElementById("codeView"),cur="html";
+  function render(){
+    view.textContent=tabs[cur].get();
+    view.className="language-"+tabs[cur].lang;
+    if(window.hljs){delete view.dataset.highlighted;hljs.highlightElement(view);}
+    var bs=document.querySelectorAll(".ctab");
+    for(var i=0;i<bs.length;i++)bs[i].classList.toggle("active",bs[i].dataset.tab===cur);
+  }
+  var bs=document.querySelectorAll(".ctab");
+  for(var i=0;i<bs.length;i++)bs[i].addEventListener("click",function(){cur=this.dataset.tab;render();});
+  document.getElementById("copyBtn").addEventListener("click",function(){
+    var b=this,code=tabs[cur].get();
+    function done(t){b.textContent=t;setTimeout(function(){b.textContent="Kopjo kodin";},1600);}
+    if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(code).then(function(){done("U kopjua ✓");},function(){done("Dështoi");});}
+    else{var ta=document.createElement("textarea");ta.value=code;document.body.appendChild(ta);ta.select();try{document.execCommand("copy");done("U kopjua ✓");}catch(e){done("Dështoi");}document.body.removeChild(ta);}
+  });
+  render();
+})();
+</script>
+</body>
+</html>
